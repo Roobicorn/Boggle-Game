@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <array>
 #include <vector>
 #include <cstdlib>
@@ -33,5 +34,9 @@ vector<string> import_dict();
 bool word_valid(vector<char> grid, string word, vector<string> words, vector<string> dict);
 
 bool yes_no();
+
+void print_word_lists(int players, vector<vector<string>> &words, vector<vector<int>> &scores);
+
+void print_total_scores(int &players, vector<int> &total_score);
 
 int winner(int players, vector<int> score);

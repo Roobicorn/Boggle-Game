@@ -10,6 +10,7 @@
        */
 
 #include <iostream>
+#include <iomanip>
 #include <array>
 #include <vector>
 #include <cstdlib>
@@ -126,30 +127,27 @@ int main(){
       //multiplayer: compare scores & declare winner:
       vector<int> round_score(players);
 
-      //TO DO: add function here to print word lists in columns using setw
+      print_word_lists(players, words, scores);
 
       for (int p = 0; p < players; p++)
       {
          round_score[p] = calculate_score(scores[p]);
          total_score[p] += round_score[p];
-
-         cout << "Player " << p + 1 << ": ";
-         cout << words[p].size() << " words. Round score = " << round_score[p] << "\n";
-         cout << "Total score = " << total_score[p] << "\n";
-
       }
 
       int p_win = winner(players, round_score);
       if (p_win == -1)
       {
-         cout << "\nIt's a draw!\n";
+         cout << "It's a draw!\n";
       }
       else
       {
-         cout << "\nPlayer " << p_win + 1 << " wins the round!\n";
+         cout << "Player " << p_win + 1 << " wins the round!\n";
       }
 
-      cout << "Round Over\n";
+      cout << "Round Over\n\n";
+
+      print_total_scores(players, total_score);
       
       cout << "Shake again? (y/n): ";
       repeat = yes_no();
@@ -165,7 +163,10 @@ int main(){
    {
       cout << "\nPlayer " << p_win + 1 << " wins!\n";
    }
-   cout << "Game over\n";
+   cout << "\nGame over\n\n"
+      << "Press any key to quit: ";
+
+   cin.get();
 
    return 0;
 }

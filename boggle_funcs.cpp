@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <array>
 #include <vector>
 #include <cstdlib>
@@ -338,6 +339,63 @@ bool yes_no()
       cin.ignore(numeric_limits<streamsize>::max(), '\n');
       return false;
    }   
+}
+
+void print_word_lists(int players, vector<vector<string>> &words, vector<vector<int>> &scores){
+   //End of round - display all accepted words in columns
+
+   int list_length = 0;
+   for(int p = 0; p < players; p++)
+   {
+      if (words[p].size() > list_length)
+      {
+         list_length = words[p].size();
+      }
+   }
+
+   for (int p = 0; p < players; p++)
+   {
+      cout << left << setw(20) << "Player " + to_string(p+1);
+   }
+   cout << "\n";
+
+   for(int i= 0; i < list_length; i++)
+   {
+      for (int p = 0; p < players; p++)
+      {
+         if(i < words[p].size()){
+            cout << left << setw(17) << words[p][i]
+               << setw(3) << scores[p][i];
+         } 
+         else 
+         {
+            cout << left << setw(20) << " ";
+         }
+      }
+      cout << "\n";
+   }
+
+   for (int p = 0; p < players; p++)
+   {
+      cout << left << setw(20) << "Round Total: " + to_string(calculate_score(scores[p]));
+   }
+   cout << "\n\n";
+
+}
+
+void print_total_scores(int &players, vector<int> &total_score)
+{
+   for (int p = 0; p < players; p++)
+   {
+      cout << left << setw(20) << "Player " + to_string(p+1);
+   }
+   cout << "\n";
+
+   for (int p = 0; p < players; p++)
+   {
+      cout << left << setw(20) << "Total Score: " + to_string(total_score[p]);
+   }
+   cout << "\n";
 }
 
 int winner(int players, vector<int> score) //returns winning player index, or -1 in case of draw.
