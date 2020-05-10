@@ -73,13 +73,13 @@ int main(){
          while (timer < 180 && !quit)
          {
             //reprint grid if it scrolls out of view
-            if(playcount > 14)
+            if(playcount > 10)
             {
                print_grid(grid);
                playcount = 0;
             }
 
-            cout << "Time remaining: " << (180 - timer) << "\n"; 
+            cout << "Time remaining: " << (180 - timer) << " seconds\n"; 
             cout << "Enter word: ";
             cin >> word;
 
@@ -92,6 +92,11 @@ int main(){
             {
                quit = true;
             } 
+            else if (word == "1")
+            {
+               print_grid(grid);
+               playcount = 0;
+            }
             else 
             {
                words[p].push_back(word);
@@ -99,9 +104,10 @@ int main(){
                if(word_valid(grid, word, words[p], dict))
                {
                   scores[p].push_back(wordscore(word.length()));
+                  cout << "Word accepted!\n";
 
                   //hide scores till end. but keep this line for testing
-                  //cout << word.length() << " letters, scores " << scores[p].back() << "\n";
+                  //cout << word.length() << " letters, scores " << scores[p].back() << "\n"
                }
                else
                {
@@ -119,6 +125,8 @@ int main(){
       
       //multiplayer: compare scores & declare winner:
       vector<int> round_score(players);
+
+      //TO DO: add function here to print word lists in columns using setw
 
       for (int p = 0; p < players; p++)
       {
