@@ -332,10 +332,10 @@ bool yes_no()
    cin >> yesno;     
    
    if(toupper(yesno)=='Y'){
-      cin.ignore(numeric_limits<streamsize>::max(), '\n')
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
       return true;
    } else {
-      cin.ignore(numeric_limits<streamsize>::max(), '\n')
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
       return false;
    }   
 }

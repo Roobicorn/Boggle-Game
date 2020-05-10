@@ -37,6 +37,7 @@ int main(){
 
    //initialise loop condition
    int repeat = true;   
+   bool player_ready;
    while (repeat)
    {   
 
@@ -54,9 +55,11 @@ int main(){
       //multiplayer functionality - cycle through play loop for each player
       for (int p = 0; p < players; p++)
       {
-         bool temp;
-         cout << "Player " << p + 1 << " ready to begin? (y/n) ";
-         temp = yes_no();
+         player_ready = false;
+         while(!player_ready){
+            cout << "Player " << p + 1 << " ready to begin? (y/n) ";
+            player_ready = yes_no();
+         }
 
          print_grid(grid);
 
