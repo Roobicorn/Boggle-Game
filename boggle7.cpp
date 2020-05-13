@@ -1,14 +1,3 @@
-/*version 7: 
-   TO DO: update multiplayer
-    Y - remove score display between inputs (and time display?)
-    Y - (update playcount to reprint grid as necessary)
-      - duplicated words from both players score zero
-      - display adjacent player word lists and scores at end of each round
-    Y - keep running total and round total (keep players for whole game)
-      
-   - check b5 test 2 path anomaly
-       */
-
 #include <iostream>
 #include <iomanip>
 #include <array>
@@ -21,8 +10,8 @@
 
 using namespace std;
 
-int main(){
-
+int main()
+{
    //create dice arrays:
    char die[16][6]{{'R', 'I', 'F', 'O', 'B', 'X'}, {'I', 'F', 'E', 'H', 'E', 'Y'}, {'D', 'E', 'N', 'O', 'W', 'S'}, {'U', 'T', 'O', 'K', 'N', 'D'}, {'H', 'M', 'S', 'R', 'A', 'O'}, {'L', 'U', 'P', 'E', 'T', 'S'}, {'A', 'C', 'I', 'T', 'O', 'A'}, {'Y', 'L', 'G', 'K', 'U', 'E'}, {'Q', 'B', 'M', 'J', 'O', 'A'}, {'E', 'H', 'I', 'S', 'P', 'N'}, {'V', 'E', 'T', 'I', 'G', 'N'}, {'B', 'A', 'L', 'I', 'Y', 'T'}, {'E', 'Z', 'A', 'V', 'N', 'D'}, {'R', 'A', 'L', 'E', 'S', 'C'}, {'U', 'W', 'I', 'L', 'R', 'G'}, {'P', 'A', 'C', 'E', 'M', 'D'}};
    
@@ -57,7 +46,8 @@ int main(){
       for (int p = 0; p < players; p++)
       {
          player_ready = false;
-         while(!player_ready){
+         while(!player_ready)
+         {
             cout << "Player " << p + 1 << " ready to begin? (y/n) ";
             player_ready = yes_no();
          }
@@ -151,7 +141,6 @@ int main(){
       
       cout << "Shake again? (y/n): ";
       repeat = yes_no();
-
    }
 
    int p_win = winner(players, total_score);

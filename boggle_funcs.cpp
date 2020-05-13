@@ -10,8 +10,9 @@
 
 using namespace std;
 
-void greet(){
-//start screen
+void greet()
+{
+   //start screen
    cout << "\n           ***************\n";
    cout << "           * B O G G L E *\n";
    cout << "           ***************\n\n";
@@ -30,12 +31,12 @@ int get_players()
    int players = 0;
    while (players < 1 || players > 4)
    {
-      cout << "How many players? (1-4): ";
+      cout << " How many players? (1-4): ";
       cin >> players;
 
       if (cin.fail())
       {
-         cout << "Enter number from 1 to 4.\n";
+         cout << " Enter number from 1 to 4.\n";
          players = 0;
          cin.clear();
          cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -46,20 +47,24 @@ int get_players()
 }
 
 
-void shake(vector<char> &grid, char die[][6]){  
+void shake(vector<char> &grid, char die[][6])
+{  
+   //take random value from each dice & put in unique position in grid
    int position = 0;
 
-   //take random value from each dice & put in unique position in grid
    // seed rand
    srand(time(NULL));
 
-   for (int dice_placed = 0; dice_placed < 16; dice_placed++) {
+   for (int dice_placed = 0; dice_placed < 16; dice_placed++) 
+   {
       bool done = false;
-      while (!done){
+      while (!done)
+      {
          position = rand() % 16;  //selects random grid position
             
          //checks if position is empty and if so, places die
-         if(grid[position] == '_'){    
+         if(grid[position] == '_')
+         {    
             grid[position] = die[dice_placed][rand() % 6];
             done = true;
          }
@@ -74,26 +79,32 @@ void print_grid(vector<char> grid){
    //print grid:
    cout << "\n";
    int position = 0;
-   for (int i = 0; i < 4; i++){
+   for (int i = 0; i < 4; i++)
+   {
       cout << " ";
-      for (int j = 0; j < 4; j++){
-         if(grid[position] == 'Q'){
+      for (int j = 0; j < 4; j++)
+      {
+         if(grid[position] == 'Q')
+         {
             q_mess = true;   
          }
          cout << grid[position] << " ";
-         position++;
-            
+         position++;            
       }
       cout << "\n";
    }
 
-   if (q_mess){
+   if (q_mess)
+   {
+      //If 'Q' exists on grid, prints following message:
       cout << "\n* for 'Q', read 'Qu'\n";
    }
    cout << "\n";
 }
 
-int wordscore(int length){
+int wordscore(int length)
+{
+   //returns score based on word length
    if (length < 3)
       return 0;
    else if (length < 5)
@@ -108,18 +119,29 @@ int wordscore(int length){
       return 11;
 }
 
-int calculate_score(vector<int> scores){
+int calculate_score(vector<int> scores)
+{
+   //returns sum of scores vector
    int total = 0;
-   for (int i = 0; i < scores.size(); i++){
+   for (int i = 0; i < scores.size(); i++)
+   {
       total += scores[i];
    }
    return total;
 }
 
 
-vector<int> connected_pos(vector<int> temp_path) //returns vector of adjacent grid positions to argument
+vector<int> connected_pos(vector<int> temp_path)
 {
-   int mod_pos = temp_path.back() % 4;
+   //returns vector of adjacent grid positions to argument
+   /*
+      in a 4x4 grid with positions numbered 0-15, adjacent grid positions relative to a given position
+      follow a pattern depending on which column it's in (ie, position index mod 4).
+      This saves writing 16 different cases for adjacent grid positions.
+   */
+
+   int current_pos = temp_path.back();
+   int mod_pos = current_pos % 4;
    vector<int> connected(0);
    vector<int> conx;
    
@@ -142,21 +164,23 @@ vector<int> connected_pos(vector<int> temp_path) //returns vector of adjacent gr
       }
    }
    
+   //Check if connected positions are 'unique' or have already been used in current path
    bool unique = true;
 
    for (int i = 0; i < conx.size(); i++)
    {
       for (int j = 0; j < temp_path.size(); j++)
       {
-         if (temp_path.back() + conx[i] == temp_path[j])
+         if (current_pos + conx[i] == temp_path[j])
          {
             unique = false;
          }
       }
-
-      if (unique && temp_path.back() + conx[i] >= 0 && temp_path.back() + conx[i] <= 15)
+      
+      //creates array of unique connected grid positions to argument
+      if (unique && current_pos + conx[i] >= 0 && current_pos + conx[i] <= 15)
       {
-         connected.push_back(temp_path.back() + conx[i]);
+         connected.push_back(current_pos + conx[i]);
       }  
       
       unique = true;
@@ -167,18 +191,24 @@ vector<int> connected_pos(vector<int> temp_path) //returns vector of adjacent gr
 
 bool word_path_valid(vector<char> &grid, string &word)
 {
+   // Checks if a given word exists on the grid, using unique connected letters.
+   /*
+      This function first checks the first letter of the word against the letter in each 
+      position on the grid. If one matches, the position is added to a temp_path and the function 
+      checks the next letter of the word against the letter in each unique connected position 
+      to the previous position. This process repeats until either a valid path is found for the whole word,
+      or all possibilities exhausted, and no valid path is found.
+   */
+
    vector< vector<int> > potential_pos(word.size(), vector<int>(0));
    vector<int> p_i(word.size(), 0); //potential pos iterators initialised to 0
    vector<int> temp_path;
    string temp_word = "";
 
-/*   for (int i = 0; i < grid.size(); i++) //sets first search range to 0-15
+   for (int i = 0; i < grid.size(); i++) //sets first search range to 0-15
    { 
       potential_pos[0].push_back(i);
    }  
-*/
-
-   potential_pos[0] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};  //less flexible but fewer calculations
   
    int j = 0; // current index of word
    int temp_pos;
@@ -235,16 +265,12 @@ bool word_path_valid(vector<char> &grid, string &word)
 
          if (word == temp_word)
          {
-
             return true;
-
          }
          else
-         {
-          
+         {     
             j++; //move on to next letter of word
-            potential_pos[j] = connected_pos(temp_path); //create potential range for next letter of word.
-               
+            potential_pos[j] = connected_pos(temp_path); //create potential range for next letter of word.             
          }
       }  
    }
@@ -253,7 +279,8 @@ bool word_path_valid(vector<char> &grid, string &word)
 }
 
 
-bool word_unique(string word, vector<string> words){
+bool word_unique(string word, vector<string> words)
+{
    bool unique = true;
 
    for (int i = 0; i < words.size() -1; i++)
@@ -285,7 +312,8 @@ vector<string> import_dict()
    string line;
    vector<string> dict;
 
-   while(getline(collins, line)){
+   while(getline(collins, line))
+   {
       dict.push_back(line);
    }
 
@@ -332,16 +360,20 @@ bool yes_no()
 
    cin >> yesno;     
    
-   if(toupper(yesno)=='Y'){
+   if(toupper(yesno)=='Y')
+   {
       cin.ignore(numeric_limits<streamsize>::max(), '\n');
       return true;
-   } else {
+   } 
+   else 
+   {
       cin.ignore(numeric_limits<streamsize>::max(), '\n');
       return false;
    }   
 }
 
-void print_word_lists(int players, vector<vector<string>> &words, vector<vector<int>> &scores){
+void print_word_lists(int players, vector<vector<string>> &words, vector<vector<int>> &scores)
+{
    //End of round - display all accepted words in columns
 
    int list_length = 0;
